@@ -1,25 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { compose, pipe } from 'lodash/fp'
 
 const App = (params) => {
-  // const arr = [' some', '  new', ' data']
+  const x = 2
 
-  // function formatArray(el){return el + ' some'}
+  const double = (number) => number * 2
+  const square = (number) => number * number
+  const half = (number) => number / 2
 
-  // function someFn(func) {
-  //   return function () {
-  //     return 'Apps'
-  //   }
-  // }
+  // const mathCalculate = compose(half, square, double)
+  const mathCalculate = pipe(double, square, half)
 
-  // const fn = someFn()
-
-  // function fn(func) {
-  //   return func()
-  // }
-
-  // return <h1>{arr.map(formatArray)}</h1>
-  return <h1>App</h1>
+  return <h1>{mathCalculate(x)}</h1>
 }
 
 ReactDOM.render(
