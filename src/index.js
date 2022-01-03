@@ -1,48 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
+import { createStore } from './store/createStore'
+import { taskReducer } from './store/taskReducer'
+import * as actions from './store/actionTypes'
 
-function taskReducer(state, action) {
-  switch (action.type) {
-    case 'task/complited':
-      const newArray = [...state]
-      const elementIndex = newArray.findIndex(
-        (item) => item.id === action.payload.id
-      )
-      newArray[elementIndex].complited = true
-      return newArray
+const initialState = [
+  { id: 1, title: 'Task 1', complited: false },
+  { id: 2, title: 'Task 2', complited: false },
+]
 
-    default:
-      break
-  }
-}
-
-function createStore(reducer, initialState) {
-  let state = initialState
-  let listeners = []
-
-  function getState() {
-    return state
-  }
-
-  function dispatch(action) {
-    state = reducer(state, action)
-    for (let index = 0; index < listeners.length; index++) {
-      const listener = listeners[index]
-      listener()
-    }
-  }
-
-  function subscribe(listener) {
-    listeners.push(listener)
-  }
-
-  return { getState, dispatch, subscribe }
-}
-
-const store = createStore(taskReducer, [
-  { id: 1, description: 'Task 1', complited: false },
-  { id: 2, description: 'Task 2', complited: false },
-])
+const store = createStore(taskReducer, initialState)
 
 const App = () => {
   const [state, setState] = useState(store.getState())
@@ -54,7 +21,17 @@ const App = () => {
   }, [])
 
   const completeTask = (taskId) => {
-    store.dispatch({ type: 'task/complited', payload: { id: taskId } })
+    store.dispatch({
+      type: actions.taskUpdated,
+      payload: { id: taskId, complited: true },
+    })
+  }
+
+  const changeTitle = (taskId) => {
+    store.dispatch({
+      type: actions.taskUpdated,
+      payload: { id: taskId, title: `New title for ${taskId}` },
+    })
   }
 
   return (
@@ -63,9 +40,10 @@ const App = () => {
       <ul>
         {state.map((item) => (
           <li key={item.id}>
-            <p>{item.description}</p>
+            <p>{item.title}</p>
             <p>{`complited: ${item.complited}`}</p>
             <button onClick={() => completeTask(item.id)}>Complete</button>
+            <button onClick={() => changeTitle(item.id)}>Change title</button>
             <hr />
           </li>
         ))}
