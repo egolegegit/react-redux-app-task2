@@ -1,5 +1,5 @@
-const { createStore } = require('redux')
-const { taskReducer } = require('./task/reducer')
+import { createStore } from 'redux'
+import taskReducer from './task'
 
 const initialState = [
   { id: 1, title: 'Task 1', complited: false },
