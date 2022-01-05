@@ -1,11 +1,13 @@
 const { createStore } = require('redux')
-const { taskReducer } = require('./taskReducer')
+const { taskReducer } = require('./task/reducer')
 
 const initialState = [
   { id: 1, title: 'Task 1', complited: false },
   { id: 2, title: 'Task 2', complited: false },
 ]
 
-export function initiateStore() {
+function configureStore() {
   return createStore(taskReducer, initialState)
 }
+
+export default configureStore
