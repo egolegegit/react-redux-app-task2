@@ -7,9 +7,9 @@ import { Provider, useSelector, useDispatch } from 'react-redux'
 const store = configureStore()
 
 const App = () => {
-  const state = useSelector((state) => state.entities)
-  const isLoading = useSelector((state) => state.isLoading)
-  const error = useSelector((state) => state.error)
+  const state = useSelector((state) => state.tasks.entities)
+  const isLoading = useSelector((state) => state.tasks.isLoading)
+  const error = useSelector((state) => state.errors.entities[0])
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const App = () => {
   if (isLoading) {
     return <h1>Loading ...</h1>
   }
-  
+
   if (error) {
     return <h3>{error}</h3>
   }
