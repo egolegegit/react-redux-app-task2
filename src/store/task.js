@@ -39,7 +39,7 @@ const taskSlice = createSlice({
 const { actions, reducer: taskReducer } = taskSlice
 const { update, remove, recived, taskRequested, taskFRequestedFailed } = actions
 
-export const getTasks = () => async (dispatch) => {
+export const loadTasks = () => async (dispatch) => {
   dispatch(taskRequested())
 
   try {
@@ -63,5 +63,8 @@ export function titleChange(id) {
 export function taskDelete(id) {
   return remove({ id })
 }
+
+export const getTasks = () => (state) => state.tasks.entities
+export const getTasksLoadingStatus = () => (state) => state.tasks.isLoading
 
 export default taskReducer
