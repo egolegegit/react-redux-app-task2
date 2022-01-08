@@ -8,7 +8,7 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     recived(state, action) {
-      console.log('action', action)
+      // console.log('action', action)
       return action.payload
     },
     update(state, action) {
@@ -35,12 +35,12 @@ export const getTasks = () => async (dispatch) => {
   try {
     const data = await todosService.fetch()
     dispatch(recived(data))
-    console.log('data', data)
+    // console.log('data', data)
   } catch (error) {dispatch(taskFRequestedFailed(error.message))}
 }
 
-export const completedTask = (id) => (getState, dispatch) => {
-  dispatch(update({ id: id, complited: true }))
+export const completedTask = (id) => {
+  return update({ id, complited: true })
 }
 
 export function titleChange(id) {
