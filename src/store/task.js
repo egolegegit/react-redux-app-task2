@@ -1,7 +1,7 @@
-import { createAction, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import todosService from '../services/todo.service'
 
-const initialState = []
+const initialState = { entities: [], isLoading: true, error: null }
 
 const taskSlice = createSlice({
   name: 'task',
@@ -9,25 +9,35 @@ const taskSlice = createSlice({
   reducers: {
     recived(state, action) {
       // console.log('action', action)
-      return action.payload
+      state.entities = action.payload
+      state.isLoading = false
     },
     update(state, action) {
-      const elementIndex = state.findIndex(
+      const elementIndex = state.entities.findIndex(
         (item) => item.id === action.payload.id
       )
-      state[elementIndex] = { ...state[elementIndex], ...action.payload }
+      state.entities[elementIndex] = {
+        ...state.entities[elementIndex],
+        ...action.payload,
+      }
     },
     remove(state, action) {
-      return state.filter((item) => item.id !== action.payload.id)
+      state.entities = state.entities.filter(
+        (item) => item.id !== action.payload.id
+      )
+    },
+    taskRequested(state) {
+      state.isLoading = true
+    },
+    taskFRequestedFailed(state, action) {
+      state.error = action.payload
+      state.isLoading = false
     },
   },
 })
 
 const { actions, reducer: taskReducer } = taskSlice
-const { update, remove, recived } = actions
-
-const taskRequested = createAction('task/requested')
-const taskFRequestedFailed = createAction('task/requestFailed')
+const { update, remove, recived, taskRequested, taskFRequestedFailed } = actions
 
 export const getTasks = () => async (dispatch) => {
   dispatch(taskRequested())
@@ -36,7 +46,9 @@ export const getTasks = () => async (dispatch) => {
     const data = await todosService.fetch()
     dispatch(recived(data))
     // console.log('data', data)
-  } catch (error) {dispatch(taskFRequestedFailed(error.message))}
+  } catch (error) {
+    dispatch(taskFRequestedFailed(error.message))
+  }
 }
 
 export const completedTask = (id) => {
