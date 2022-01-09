@@ -69,7 +69,7 @@ export const createTask = () => async (dispatch) => {
   dispatch(taskRequested())
 
   try {
-    const data = await todoService.fetch()
+    const data = await todoService.post()
     dispatch(create(data))
   } catch (error) {
     dispatch(taskFRequestedFailed())
