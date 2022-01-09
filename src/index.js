@@ -5,6 +5,7 @@ import {
   taskDelete,
   completedTask,
   loadTasks,
+  createTask,
   getTasks,
   getTasksLoadingStatus,
 } from './store/task'
@@ -43,6 +44,8 @@ const App = () => {
   return (
     <>
       <h1>Apps</h1>
+      <button onClick={() => dispatch(createTask())}>Add todo</button>
+
       <ul>
         {state.map((item) => (
           <li key={item.id}>
