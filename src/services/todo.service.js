@@ -1,10 +1,10 @@
-import htttpService from './http.service'
+import httpService from './http.service'
 
 const todoEndpoint = 'todos'
 
 const todoService = {
   fetch: async () => {
-    const { data } = await htttpService.post(todoEndpoint, {
+    const { data } = await httpService.post(todoEndpoint, {
       title: 'new todo',
       completed: false,
     })
