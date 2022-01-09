@@ -64,11 +64,11 @@ export const loadTasks = () => async (dispatch) => {
   }
 }
 
-export const createTask = () => async (dispatch) => {
+export const createTask = (task) => async (dispatch) => {
   dispatch(taskRequested())
 
   try {
-    const data = await todosService.post()
+    const data = await todosService.create(task)
     dispatch(create(data))
   } catch (error) {
     dispatch(taskFRequestedFailed())

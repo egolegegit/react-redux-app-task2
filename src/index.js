@@ -33,6 +33,16 @@ const App = () => {
     dispatch(taskDelete(taskId))
   }
 
+  const addNewTask = () => {
+    dispatch(
+      createTask({
+        userId: 1,
+        title: 'New task',
+        completed: false,
+      })
+    )
+  }
+
   if (isLoading) {
     return <h1>Loading ...</h1>
   }
@@ -44,7 +54,7 @@ const App = () => {
   return (
     <>
       <h1>Apps</h1>
-      <button onClick={() => dispatch(createTask())}>Add todo</button>
+      <button onClick={addNewTask}>Add task</button>
 
       <ul>
         {state.map((item) => (
