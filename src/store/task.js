@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import todoService from '../services/todo.service'
 import todosService from '../services/todos.service'
 import { setError } from './errors'
 
@@ -69,7 +68,7 @@ export const createTask = () => async (dispatch) => {
   dispatch(taskRequested())
 
   try {
-    const data = await todoService.post()
+    const data = await todosService.post()
     dispatch(create(data))
   } catch (error) {
     dispatch(taskFRequestedFailed())
